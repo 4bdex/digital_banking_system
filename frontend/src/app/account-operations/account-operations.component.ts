@@ -5,6 +5,7 @@ import {catchError, Observable, throwError} from "rxjs";
 import {AccountDetails} from "../model/account.model";
 import {NgIf, NgFor, AsyncPipe, CommonModule} from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-accounts',
@@ -21,7 +22,7 @@ export class AccountOperationsComponent implements OnInit {
   operationFromGroup! : FormGroup;
   errorMessage! :string ;
 
-  constructor(private fb : FormBuilder, private accountService : AccountsService, private route: ActivatedRoute) { 
+  constructor(private fb : FormBuilder, private accountService : AccountsService,public authService : AuthService, private route: ActivatedRoute) { 
   }
 
   ngOnInit(): void {

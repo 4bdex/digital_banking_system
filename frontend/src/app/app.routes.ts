@@ -6,17 +6,28 @@ import { CustomerAccountsComponent } from './customer-accounts/customer-accounts
 import { EditCustomerComponent } from './edit-customer/edit-customer.component';
 import { AccountOperationsComponent } from './account-operations/account-operations.component';
 import { NewAccountComponent } from './new-account/new-account.component';
+import { LoginComponent } from './login/login.component';
+import { authentificationGuard } from './guards/authentification.guard';
+import { authorizationGuard } from './guards/authorization.guard';
+import { NotAuthorizedComponent } from './not-authorized/not-authorized.component';
 
 export const routes: Routes = [
-  { path: "", redirectTo: "/customers", pathMatch: "full" },
-  { path: "customers", component: CustomersComponent },
-  { path: "account-operations", component: AccountOperationsComponent },
-  { path: 'account-operations/:id', component: AccountOperationsComponent },
-  { path: 'accounts', component: AccountsComponent },
-  { path: "new-customer", component: NewCustomerComponent },
-  { path: "customer-accounts/:id", component: CustomerAccountsComponent },
-  { path: 'edit-customer/:id', component: EditCustomerComponent },
-  { path: 'new-account', component: NewAccountComponent },
-
+  { path: "", redirectTo: "/login", pathMatch: "full" },
+  { path: "login", component: LoginComponent },
+  {
+    path: "",
+    canActivateChild: [authentificationGuard],
+    children: [
+      { path: "customers", component: CustomersComponent },
+      { path: "account-operations", component: AccountOperationsComponent },
+      { path: 'account-operations/:id', component: AccountOperationsComponent },
+      { path: 'accounts', component: AccountsComponent ,  canActivate: [authorizationGuard], data: { roles: ['ROLE_ADMIN'] }},
+      { path: "new-customer", component: NewCustomerComponent , canActivate: [authorizationGuard], data: { roles: ['ROLE_ADMIN'] } },
+      { path: "customer-accounts/:id", component: CustomerAccountsComponent },
+      { path: 'edit-customer/:id', component: EditCustomerComponent ,  canActivate: [authorizationGuard], data: { roles: ['ROLE_ADMIN'] } },
+      { path: 'new-account', component: NewAccountComponent ,  canActivate: [authorizationGuard], data: { roles: ['ROLE_ADMIN'] }},
+      { path: 'not-authorized', component: NotAuthorizedComponent },
+    ]
+  },
 ];
 

@@ -1,54 +1,91 @@
-<div class="container mt-2">
-  <ng-container *ngIf="customers | async as listCustomers; else failureOrLading">
-    <div class="card">
-      <div class="card-header">Customers</div>
-      <div class="card-body">
-        <div *ngIf="searchFormGroup">
-          <form [formGroup]="searchFormGroup" (ngSubmit)="handleSearchCustomers()">
-            <div class="input-group">
-              <label class="input-group-text">Keyword :</label>
-              <input type="text" formControlName="keyword" class="form-control">
-              <button class="btn btn-info">
-                <i class="bi bi-search"></i>
-              </button>
-            </div>
-          </form>
+<div class="container py-4">
+  <ng-container
+    *ngIf="customers | async as listCustomers; else failureOrLading"
+  >
+    <div class="card shadow-sm border-0">
+      <div
+        class="card-header bg-primary text-white d-flex align-items-center justify-content-between"
+      >
+        <h4 class="mb-0">Customers List</h4>
+      </div>
+      <div class="card-body bg-light">
+        <form
+          *ngIf="searchFormGroup"
+          [formGroup]="searchFormGroup"
+          (ngSubmit)="handleSearchCustomers()"
+          class="mb-3"
+        >
+          <div class="input-group">
+            <span class="input-group-text bg-white border-end-0"
+              ><i class="bi bi-search"></i
+            ></span>
+            <input
+              type="text"
+              formControlName="keyword"
+              class="form-control border-start-0"
+              placeholder="Search customers..."
+            />
+            <button class="btn btn-primary" type="submit">Search</button>
+          </div>
+        </form>
+        <div class="table-responsive">
+          <table
+            class="table table-hover align-middle bg-white rounded shadow-sm"
+          >
+            <thead class="table-primary">
+              <tr>
+                <th scope="col" class="fw-semibold">ID</th>
+                <th scope="col" class="fw-semibold">Name</th>
+                <th scope="col" class="fw-semibold">Email</th>
+                <th scope="col" class="text-center fw-semibold">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let c of customers | async">
+                <td>{{ c.id }}</td>
+                <td>{{ c.name }}</td>
+                <td>{{ c.email }}</td>
+                <td class="text-center">
+                  <button
+                    (click)="handleDeleteCustomer(c)"
+                    class="btn btn-danger btn-sm me-1"
+                    title="Delete"
+                  >
+                    <i class="bi bi-trash"></i>
+                  </button>
+                  <button
+                    (click)="handleEditCustomer(c)"
+                    class="btn btn-warning btn-sm me-1"
+                    title="Edit"
+                  >
+                    <i class="bi bi-pencil"></i>
+                  </button>
+                  <button
+                    (click)="handleCustomerAccounts(c)"
+                    class="btn btn-success btn-sm"
+                    title="View Accounts"
+                  >
+                    Accounts
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-        <table class="table">
-          <thead>
-          <tr>
-            <th>ID</th><th>Name</th><th>Email</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr *ngFor="let c of customers | async">
-            <td>{{c.id}}</td>
-            <td>{{c.name}}</td>
-            <td>{{c.email}}</td>
-            <td>
-              <button (click)="handleDeleteCustomer(c)" class="btn btn-danger">
-                <i class="bi bi-trash"></i>
-              </button>
-            </td>
-            <td>
-              <button (click)="handleCustomerAccounts(c)" class="btn btn-success">
-                Accounts
-              </button>
-            </td>
-          </tr>
-          </tbody>
-        </table>
       </div>
     </div>
   </ng-container>
   <ng-template #failureOrLading>
     <ng-container *ngIf="errorMessage; else loading">
-      <div class="text-danger">
-        {{errorMessage}}
+      <div class="alert alert-danger mt-4 text-center">
+        {{ errorMessage }}
       </div>
     </ng-container>
     <ng-template #loading>
-      Loading .....
+      <div class="d-flex justify-content-center align-items-center mt-4">
+        <div class="spinner-border text-primary me-2" role="status"></div>
+        <span>Loading ...</span>
+      </div>
     </ng-template>
   </ng-template>
 </div>

@@ -3,6 +3,7 @@ package ma.enset.digital_banking_system_backend.web;
 import ma.enset.digital_banking_system_backend.dtos.*;
 import ma.enset.digital_banking_system_backend.exceptions.BalanceNotSufficientException;
 import ma.enset.digital_banking_system_backend.exceptions.BankAccountNotFoundException;
+import ma.enset.digital_banking_system_backend.exceptions.CustomerNotFoundException;
 import ma.enset.digital_banking_system_backend.services.BankAccountService;
 import org.springframework.web.bind.annotation.*;
 
@@ -60,5 +61,20 @@ public class BankAccountRestAPI {
                 transferRequestDTO.getAccountSource(),
                 transferRequestDTO.getAccountDestination(),
                 transferRequestDTO.getAmount());
+    }
+    @DeleteMapping("/accounts/{accountId}")
+    public void deleteAccount(@PathVariable String accountId) throws BankAccountNotFoundException {
+        bankAccountService.deleteAccount(accountId);
+    }
+
+
+    @PostMapping("/accounts/current")
+    public CurrentBankAccountDTO saveCurrentBankAccount(@RequestBody CurrentBankAccountDTO currentBankAccountDTO) throws CustomerNotFoundException {
+        return bankAccountService.saveCurrentBankAccount(currentBankAccountDTO.getBalance(), currentBankAccountDTO.getOverDraft(), currentBankAccountDTO.getCustomerDTO().getId());
+    }
+ 
+    @PostMapping("/accounts/saving")
+    public SavingBankAccountDTO saveSavingBankAccount(@RequestBody SavingBankAccountDTO savingBankAccountDTO) throws CustomerNotFoundException {
+        return bankAccountService.saveSavingBankAccount(savingBankAccountDTO.getBalance(), savingBankAccountDTO.getInterestRate(), savingBankAccountDTO.getCustomerDTO().getId());
     }
 }

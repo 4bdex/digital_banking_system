@@ -1,0 +1,82 @@
+<div class="container py-4">
+  <div class="card shadow-sm border-0">
+    <div class="card-header bg-primary text-white">
+      <h4 class="mb-0">Add New Account</h4>
+    </div>
+    <div class="card-body bg-light">
+      <form [formGroup]="addAccountFormGroup" (ngSubmit)="handleAddAccount()">
+        <div class="row g-2 mb-3">
+          <div class="col-md-4">
+            <label class="form-label">Account Type</label>
+            <select class="form-select" formControlName="type">
+              <option value="CURRENT">Current</option>
+              <option value="SAVINGS">Savings</option>
+            </select>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Initial Balance</label>
+            <input
+              type="number"
+              class="form-control"
+              formControlName="balance"
+              required
+            />
+          </div>
+
+          <div class="col-md-4">
+            <label class="form-label">Select Customer</label>
+            <select class="form-select" formControlName="customerId" required>
+              <option
+                *ngFor="let customer of customers$ | async"
+                [value]="customer.id"
+              >
+                {{ customer.name }} ({{ customer.email }})
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="row g-2 mb-3">
+          <div
+            class="col-md-4"
+            *ngIf="addAccountFormGroup.get('type')?.value === 'CURRENT'"
+          >
+            <label class="form-label">Overdraft</label>
+            <input
+              type="number"
+              class="form-control"
+              formControlName="overDraft"
+              min="0"
+            />
+          </div>
+        </div>
+        <div class="row g-2 mb-3">
+          <div
+            class="col-md-4"
+            *ngIf="addAccountFormGroup.get('type')?.value === 'SAVINGS'"
+          >
+            <label class="form-label">Interest Rate (%)</label>
+            <input
+              type="number"
+              class="form-control"
+              formControlName="interestRate"
+              min="0"
+              step="0.01"
+            />
+          </div>
+        </div>
+        <div class="mt-3">
+          <button class="btn btn-success btn-sm" type="submit">
+            Create Account
+          </button>
+          <button
+            class="btn btn-secondary btn-sm ms-2"
+            type="button"
+            routerLink="/accounts"
+          >
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

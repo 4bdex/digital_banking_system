@@ -3,6 +3,7 @@ package ma.enset.digital_banking_system_backend.web;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ma.enset.digital_banking_system_backend.dtos.CustomerDTO;
+import ma.enset.digital_banking_system_backend.dtos.BankAccountDTO;
 import ma.enset.digital_banking_system_backend.exceptions.CustomerNotFoundException;
 import ma.enset.digital_banking_system_backend.services.BankAccountService;
 import org.springframework.web.bind.annotation.*;
@@ -45,5 +46,9 @@ public class CustomerRestController {
     @DeleteMapping("/customers/{id}")
     public void deleteCustomer(@PathVariable Long id) {
         bankAccountService.deleteCustomer(id);
+    }
+    @GetMapping("/customers/{customerId}/accounts")
+    public List<BankAccountDTO> getCustomerAccounts(@PathVariable Long customerId) throws CustomerNotFoundException {
+        return bankAccountService.getCustomerAccounts(customerId);
     }
 }

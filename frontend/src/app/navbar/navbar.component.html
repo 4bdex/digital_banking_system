@@ -1,39 +1,94 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark" *ngIf="authService.isAuthenticated==true">
+<nav
+  class="navbar navbar-expand-lg navbar-dark bg-dark"
+  *ngIf="authService.isAuthenticated == true"
+>
   <div class="container-fluid">
     <a class="navbar-brand" href="#">Bank Management System</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-       <li class="nav-item dropdown" *ngIf="authService.roles.includes('ROLE_ADMIN')">
-          <a class="nav-link dropdown-toggle" href="/accounts" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <li
+          class="nav-item dropdown"
+          *ngIf="authService.roles.includes('ROLE_ADMIN')"
+        >
+          <a
+            class="nav-link dropdown-toggle"
+            href="/accounts"
+            id="navbarDropdown"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
             Accounts
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" routerLink="/accounts">Search Account</a></li>
-            <li><a class="dropdown-item" routerLink="/new-account">New Account</a></li>
+            <li>
+              <a class="dropdown-item" routerLink="/accounts">Search Account</a>
+            </li>
+            <li>
+              <a class="dropdown-item" routerLink="/new-account">New Account</a>
+            </li>
           </ul>
         </li>
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <a
+            class="nav-link dropdown-toggle"
+            href="#"
+            id="navbarDropdown"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
             Customers
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" routerLink="/customers">Search customers</a></li>
-            <li><a class="dropdown-item" routerLink="/new-customer" *ngIf="authService.roles.includes('ROLE_ADMIN')">New customer</a></li>
+            <li>
+              <a class="dropdown-item" routerLink="/customers"
+                >Search customers</a
+              >
+            </li>
+            <li>
+              <a
+                class="dropdown-item"
+                routerLink="/new-customer"
+                *ngIf="authService.roles.includes('ROLE_ADMIN')"
+                >New customer</a
+              >
+            </li>
           </ul>
         </li>
       </ul>
-      <ul class="navbar-nav ms-auto mb-2 mb-lg-0" *ngIf="authService.isAuthenticated==true">
+      <ul
+        class="navbar-nav ms-auto mb-2 mb-lg-0"
+        *ngIf="authService.isAuthenticated == true"
+      >
         <li class="nav-item d-flex align-items-center">
           <span class="navbar-text me-3">
             <strong>{{ authService.username }}</strong>
           </span>
         </li>
         <li class="nav-item">
-          <button  (click)="handleLogout()" class="btn btn-outline-light" type="button">
-              Logout
+          <a class="btn btn-outline-info me-2" routerLink="/change-password"
+            >Changer le mot de passe</a
+          >
+        </li>
+        <li class="nav-item">
+          <button
+            (click)="handleLogout()"
+            class="btn btn-outline-light"
+            type="button"
+          >
+            Logout
           </button>
         </li>
       </ul>

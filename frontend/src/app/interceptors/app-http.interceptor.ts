@@ -6,7 +6,9 @@ export const appHttpInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);
   const jwtToken = authService.jwtToken;
 
-  if (!req.url.includes('/auth/login')) {
+  // Exclude public endpoints from Authorization header
+  const publicEndpoints = ['/auth/login', '/auth/register', '/auth/profile'];
+  if (!publicEndpoints.some(url => req.url.includes(url))) {
     req = req.clone({
       setHeaders: {
         Authorization: `Bearer ${jwtToken}`

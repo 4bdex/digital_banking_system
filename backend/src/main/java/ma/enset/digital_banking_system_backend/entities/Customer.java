@@ -18,6 +18,7 @@ public class Customer {
     private Long id;
     private String name;
     private String email;
+    private String createdBy;
     @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<BankAccount> bankAccounts;

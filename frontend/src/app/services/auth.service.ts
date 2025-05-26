@@ -38,5 +38,14 @@ export class AuthService {
     this.username = null;
     this.jwtToken = null;
   }
+  public register(username: string, password: string, role: string = 'USER') {
+    return this.http.post(`http://localhost:8084/auth/register`, { username, password, role });
+  }
+  public changePassword(currentPassword: string, newPassword: string) {
+    return this.http.post(`http://localhost:8084/auth/change-password`, {
+      currentPassword,
+      newPassword
+    });
+  }
 
 }

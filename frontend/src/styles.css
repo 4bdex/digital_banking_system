@@ -1,3 +1,156 @@
 /* You can add global styles to this file, and also import other style files */
 @import "bootstrap-icons/font/bootstrap-icons.css";
 
+body {
+  background: linear-gradient(135deg, #f8fafc 0%, #e0e7ef 100%);
+  min-height: 100vh;
+  font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+  color: #2c3e50;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+  font-weight: 700;
+  color: #2c3e50;
+}
+
+.card {
+  border: none;
+  border-radius: 1rem;
+  box-shadow: 0 4px 24px rgba(44, 62, 80, 0.08);
+  transition: transform 0.15s;
+}
+.card:hover {
+  transform: translateY(-4px) scale(1.03);
+}
+
+.btn-primary, .btn-success, .btn-danger, .btn-warning {
+  border-radius: 2rem;
+  font-weight: 600;
+  padding: 0.5rem 1.5rem;
+  box-shadow: 0 2px 8px rgba(44, 62, 80, 0.07);
+  transition: background 0.2s, color 0.2s;
+}
+
+.btn-primary {
+  background: linear-gradient(90deg, #3498db 0%, #6dd5fa 100%);
+  border: none;
+}
+.btn-primary:hover {
+  background: linear-gradient(90deg, #2980b9 0%, #3498db 100%);
+}
+
+.btn-success {
+  background: linear-gradient(90deg, #27ae60 0%, #6dd5fa 100%);
+  border: none;
+}
+.btn-success:hover {
+  background: linear-gradient(90deg, #219150 0%, #27ae60 100%);
+}
+
+.btn-danger {
+  background: linear-gradient(90deg, #e74c3c 0%, #f39c12 100%);
+  border: none;
+}
+.btn-danger:hover {
+  background: linear-gradient(90deg, #c0392b 0%, #e74c3c 100%);
+}
+
+input, select, textarea {
+  border-radius: 0.5rem !important;
+  border: 1px solid #d1d5db !important;
+  box-shadow: 0 1px 4px rgba(44, 62, 80, 0.04);
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+}
+input:focus, select:focus, textarea:focus {
+  border-color: #3498db !important;
+  outline: none;
+  box-shadow: 0 0 0 2px #6dd5fa33;
+}
+
+.navbar {
+  background: linear-gradient(90deg, #3498db 0%, #6dd5fa 100%);
+  border-radius: 0 0 1rem 1rem;
+  box-shadow: 0 2px 12px rgba(44, 62, 80, 0.08);
+}
+.navbar .navbar-brand, .navbar .nav-link, .navbar .navbar-text {
+  color: #fff !important;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+.navbar .nav-link.active, .navbar .nav-link:focus, .navbar .nav-link:hover {
+  color: #222 !important;
+  background: #fff3;
+  border-radius: 1rem;
+}
+.navbar .dropdown-toggle::after {
+  margin-left: 0.4em;
+}
+.navbar .dropdown-menu {
+  border-radius: 1rem;
+  box-shadow: 0 4px 24px rgba(44, 62, 80, 0.10);
+  min-width: 180px;
+  font-size: 1rem;
+  padding: 0.5rem 0;
+}
+.navbar .dropdown-item {
+  font-weight: 500;
+  color: #2c3e50;
+  border-radius: 0.5rem;
+  transition: background 0.15s, color 0.15s;
+}
+.navbar .dropdown-item:active, .navbar .dropdown-item:focus, .navbar .dropdown-item:hover {
+  background: #f0f4fa;
+  color: #007bff;
+}
+.navbar .dropdown-item.text-danger {
+  color: #e74c3c;
+}
+.navbar .dropdown-item.text-danger:hover {
+  background: #fdecea;
+  color: #c0392b;
+}
+
+.table {
+  border-radius: 1rem;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 2px 12px rgba(44, 62, 80, 0.06);
+}
+.table th {
+  background: #f8fafc;
+  color: #2c3e50;
+  font-weight: 700;
+}
+.table td {
+  color: #444;
+}
+
+.alert {
+  border-radius: 0.75rem;
+  font-size: 1.05rem;
+  box-shadow: 0 2px 8px rgba(44, 62, 80, 0.04);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  background: #e0e7ef;
+}
+::-webkit-scrollbar-thumb {
+  background: #b0c4de;
+  border-radius: 4px;
+}
+
+@media (max-width: 767px) {
+  .dashboard-container, .container, .container-fluid {
+    padding: 0.5rem !important;
+  }
+  .card {
+    border-radius: 0.5rem;
+  }
+  .navbar {
+    border-radius: 0 0 0.5rem 0.5rem;
+  }
+}
+

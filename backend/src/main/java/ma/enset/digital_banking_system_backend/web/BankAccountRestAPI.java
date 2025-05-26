@@ -93,4 +93,10 @@ public class BankAccountRestAPI {
         return bankAccountService.saveSavingBankAccount(savingBankAccountDTO.getBalance(),
                 savingBankAccountDTO.getInterestRate(), savingBankAccountDTO.getCustomerDTO().getId());
     }
+
+    @GetMapping("/dashboard/stats")
+    @PreAuthorize("hasAuthority('SCOPE_ROLE_ADMIN')")
+    public DashboardStatsDTO getDashboardStats() {
+        return bankAccountService.getDashboardStats();
+    }
 }

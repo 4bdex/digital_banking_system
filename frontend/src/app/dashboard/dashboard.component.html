@@ -1,0 +1,71 @@
+<div class="dashboard-bg">
+  <div class="dashboard-container">
+    <h2 class="dashboard-title mb-4">Admin Dashboard</h2>
+    <div class="row mb-4">
+      <div class="col-md-4 mb-3">
+        <div class="card summary-card summary-customers">
+          <div class="card-body">
+            <div class="summary-icon"><i class="bi bi-people"></i></div>
+            <h5 class="card-title">Total Customers</h5>
+            <p class="display-6">{{ totalCustomers }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 mb-3">
+        <div class="card summary-card summary-accounts">
+          <div class="card-body">
+            <div class="summary-icon"><i class="bi bi-wallet2"></i></div>
+            <h5 class="card-title">Total Accounts</h5>
+            <p class="display-6">{{ totalAccounts }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 mb-3">
+        <div class="card summary-card summary-balance">
+          <div class="card-body">
+            <div class="summary-icon"><i class="bi bi-cash-coin"></i></div>
+            <h5 class="card-title">Total Balance</h5>
+            <p class="display-6">{{ totalBalance | number : "1.2-2" }} $</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 mb-4">
+        <div class="chart-card">
+          <h5>Transactions</h5>
+          <canvas
+            baseChart
+            [data]="transactionsChartData"
+            [options]="barChartOptions"
+            [legend]="barChartLegend"
+            [type]="transactionsChartType"
+          >
+          </canvas>
+        </div>
+      </div>
+      <div class="col-md-6 mb-4">
+        <div class="chart-card">
+          <h5>New Accounts</h5>
+          <canvas
+            baseChart
+            [data]="newAccountsChartData"
+            [options]="barChartOptions"
+            [legend]="barChartLegend"
+            [type]="newAccountsChartType"
+          >
+          </canvas>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 mb-4">
+        <div class="chart-card">
+          <h5>Account Types</h5>
+          <canvas baseChart [data]="pieChartData" [type]="pieChartType">
+          </canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -19,8 +19,13 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -54,7 +59,8 @@ public class BankAccountServiceImpl implements BankAccountService {
             throw new CustomerNotFoundException("Customer not found");
         CurrentAccount currentAccount = new CurrentAccount();
         currentAccount.setId(UUID.randomUUID().toString());
-        currentAccount.setCreatedAt(new Date());
+        // Set createdAt to a random date within the last 12 months
+        currentAccount.setCreatedAt(randomPastDateWithinMonths(12));
         currentAccount.setBalance(initialBalance);
         currentAccount.setOverDraft(overDraft);
         currentAccount.setCustomer(customer);
@@ -75,7 +81,8 @@ public class BankAccountServiceImpl implements BankAccountService {
             throw new CustomerNotFoundException("Customer not found");
         SavingAccount savingAccount = new SavingAccount();
         savingAccount.setId(UUID.randomUUID().toString());
-        savingAccount.setCreatedAt(new Date());
+        // Set createdAt to a random date within the last 12 months
+        savingAccount.setCreatedAt(randomPastDateWithinMonths(12));
         savingAccount.setBalance(initialBalance);
         savingAccount.setInterestRate(interestRate);
         savingAccount.setCustomer(customer);
@@ -140,6 +147,27 @@ public class BankAccountServiceImpl implements BankAccountService {
         bankAccountRepository.save(bankAccount);
     }
 
+    public void debit(String accountId, double amount, String description, Date operationDate)
+            throws BankAccountNotFoundException, BalanceNotSufficientException {
+        BankAccount bankAccount = bankAccountRepository.findById(accountId)
+                .orElseThrow(() -> new BankAccountNotFoundException("BankAccount not found"));
+        if (bankAccount.getBalance() < amount)
+            throw new BalanceNotSufficientException("Balance not sufficient");
+        AccountOperation accountOperation = new AccountOperation();
+        accountOperation.setType(OperationType.DEBIT);
+        accountOperation.setAmount(amount);
+        accountOperation.setDescription(description);
+        accountOperation.setOperationDate(operationDate != null ? operationDate : new Date());
+        accountOperation.setBankAccount(bankAccount);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null) {
+            accountOperation.setCreatedBy(auth.getName());
+        }
+        accountOperationRepository.save(accountOperation);
+        bankAccount.setBalance(bankAccount.getBalance() - amount);
+        bankAccountRepository.save(bankAccount);
+    }
+
     @Override
     public void credit(String accountId, double amount, String description) throws BankAccountNotFoundException {
         BankAccount bankAccount = bankAccountRepository.findById(accountId)
@@ -149,6 +177,25 @@ public class BankAccountServiceImpl implements BankAccountService {
         accountOperation.setAmount(amount);
         accountOperation.setDescription(description);
         accountOperation.setOperationDate(new Date());
+        accountOperation.setBankAccount(bankAccount);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null) {
+            accountOperation.setCreatedBy(auth.getName());
+        }
+        accountOperationRepository.save(accountOperation);
+        bankAccount.setBalance(bankAccount.getBalance() + amount);
+        bankAccountRepository.save(bankAccount);
+    }
+
+    public void credit(String accountId, double amount, String description, Date operationDate)
+            throws BankAccountNotFoundException {
+        BankAccount bankAccount = bankAccountRepository.findById(accountId)
+                .orElseThrow(() -> new BankAccountNotFoundException("BankAccount not found"));
+        AccountOperation accountOperation = new AccountOperation();
+        accountOperation.setType(OperationType.CREDIT);
+        accountOperation.setAmount(amount);
+        accountOperation.setDescription(description);
+        accountOperation.setOperationDate(operationDate != null ? operationDate : new Date());
         accountOperation.setBankAccount(bankAccount);
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null) {
@@ -266,6 +313,56 @@ public class BankAccountServiceImpl implements BankAccountService {
         List<AccountOperation> operations = accountOperationRepository.findByBankAccountId(accountId);
         accountOperationRepository.deleteAll(operations);
         bankAccountRepository.delete(account);
+    }
+
+    @Override
+    public DashboardStatsDTO getDashboardStats() {
+        DashboardStatsDTO stats = new DashboardStatsDTO();
+        stats.setTotalCustomers(customerRepository.count());
+        stats.setTotalAccounts(bankAccountRepository.count());
+        stats.setTotalBalance(bankAccountRepository.findAll().stream().mapToDouble(BankAccount::getBalance).sum());
+
+        // Account type counts
+        List<BankAccount> allAccounts = bankAccountRepository.findAll();
+        Map<String, Long> typeCounts = allAccounts.stream()
+                .collect(Collectors.groupingBy(a -> a instanceof SavingAccount ? "SAVING" : "CURRENT",
+                        Collectors.counting()));
+        stats.setAccountTypeCounts(typeCounts);
+
+        // Monthly new accounts (last 6 months)
+        Map<String, Long> monthlyNewAccounts = new HashMap<>();
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM");
+        allAccounts.forEach(acc -> {
+            LocalDate date = acc.getCreatedAt().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            String key = date.format(fmt);
+            monthlyNewAccounts.put(key, monthlyNewAccounts.getOrDefault(key, 0L) + 1);
+        });
+        stats.setMonthlyNewAccounts(monthlyNewAccounts);
+
+        // Monthly transactions (sum of all operations per month, last 6 months)
+        List<AccountOperation> allOps = accountOperationRepository.findAll();
+        Map<String, Double> monthlyTransactions = new HashMap<>();
+        allOps.forEach(op -> {
+            LocalDate date = op.getOperationDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            String key = date.format(fmt);
+            monthlyTransactions.put(key, monthlyTransactions.getOrDefault(key, 0.0) + op.getAmount());
+        });
+        stats.setMonthlyTransactions(monthlyTransactions);
+
+        return stats;
+    }
+
+    // Utility method to generate a random date within the last N months
+    private Date randomPastDateWithinMonths(int months) {
+        java.util.Random rand = new java.util.Random();
+        LocalDate now = LocalDate.now();
+        // Pick a random month offset (0 = this month, up to months-1)
+        int randomMonthOffset = rand.nextInt(months);
+        LocalDate baseMonth = now.minusMonths(randomMonthOffset);
+        int maxDay = baseMonth.lengthOfMonth();
+        int randomDay = rand.nextInt(maxDay) + 1; // 1 to maxDay
+        LocalDate randomDate = baseMonth.withDayOfMonth(randomDay);
+        return java.util.Date.from(randomDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
     }
 
 }

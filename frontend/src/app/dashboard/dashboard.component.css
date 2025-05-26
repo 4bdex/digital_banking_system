@@ -1,0 +1,89 @@
+.dashboard-bg {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f8fafc 0%, #e0e7ef 100%);
+  padding: 2rem 0;
+}
+.dashboard-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+.dashboard-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #2c3e50;
+  letter-spacing: 1px;
+  margin-bottom: 2rem;
+}
+.summary-card {
+  border: none;
+  border-radius: 1rem;
+  box-shadow: 0 4px 24px rgba(44, 62, 80, 0.08);
+  transition: transform 0.15s;
+  min-height: 170px;
+}
+.summary-card:hover {
+  transform: translateY(-4px) scale(1.03);
+}
+.summary-icon {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+.summary-customers .summary-icon {
+  color: #3498db;
+}
+.summary-accounts .summary-icon {
+  color: #27ae60;
+}
+.summary-balance .summary-icon {
+  color: #f39c12;
+}
+.summary-customers {
+  background: linear-gradient(135deg, #e3f0fc 0%, #f5fbff 100%);
+}
+.summary-accounts {
+  background: linear-gradient(135deg, #eafaf1 0%, #f8fff9 100%);
+}
+.summary-balance {
+  background: linear-gradient(135deg, #fff6e3 0%, #fffdf5 100%);
+}
+.card-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #555;
+}
+.display-6 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #222;
+}
+.chart-card {
+  background: #fff;
+  border-radius: 1rem;
+  box-shadow: 0 2px 16px rgba(44, 62, 80, 0.07);
+  padding: 1.5rem 1rem 2rem 1rem;
+  margin-bottom: 1rem;
+}
+.chart-card h5 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 1rem;
+}
+canvas {
+  background: transparent;
+  border-radius: 8px;
+  box-shadow: none;
+  padding: 0;
+}
+@media (max-width: 767px) {
+  .dashboard-title {
+    font-size: 2rem;
+  }
+  .summary-card {
+    min-height: 140px;
+  }
+  .chart-card {
+    padding: 1rem 0.5rem 1.5rem 0.5rem;
+  }
+}

@@ -1,7 +1,15 @@
 <div class="container py-4">
   <div class="d-flex justify-content-between align-items-center mb-3">
     <h3 class="mb-0">Accounts Management</h3>
-    <a class="btn btn-primary btn-sm" routerLink="/new-account">
+    <a
+      class="btn btn-primary btn-sm"
+      routerLink="/new-account"
+      *ngIf="
+        authService.isAuthenticated &&
+        authService.roles &&
+        authService.roles.includes('ROLE_ADMIN')
+      "
+    >
       <i class="bi bi-plus-circle"></i> New Account
     </a>
   </div>
@@ -37,11 +45,17 @@
             <a
               class="btn btn-info btn-sm me-1"
               [routerLink]="['/account-operations', account.id]"
+              *ngIf="authService.isAuthenticated"
               >Operations</a
             >
             <button
               class="btn btn-danger btn-sm"
               (click)="deleteAccount(account)"
+              *ngIf="
+                authService.isAuthenticated &&
+                authService.roles &&
+                authService.roles.includes('ROLE_ADMIN')
+              "
             >
               <i class="bi bi-trash"></i>
             </button>

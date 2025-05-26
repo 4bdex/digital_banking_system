@@ -6,6 +6,7 @@ import { Customer } from "../model/customer.model";
 import { FormBuilder, FormGroup, ReactiveFormsModule } from "@angular/forms";
 import { Router } from "@angular/router";
 import { NgIf, NgFor, AsyncPipe, CommonModule } from '@angular/common';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-customers',
@@ -21,7 +22,7 @@ export class CustomersComponent implements OnInit {
   customers!: Observable<Array<Customer>>;
   errorMessage!: string;
   searchFormGroup: FormGroup | undefined;
-  constructor(private customerService: CustomerService, private fb: FormBuilder, private router: Router) { }
+  constructor(private customerService: CustomerService, private fb: FormBuilder, private router: Router, public authService: AuthService) { }
 
   ngOnInit(): void {
     this.searchFormGroup = this.fb.group({

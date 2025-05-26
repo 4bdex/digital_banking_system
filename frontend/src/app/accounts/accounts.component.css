@@ -1,0 +1,70 @@
+.card {
+  border-radius: 1rem;
+  box-shadow: 0 4px 24px rgba(44, 62, 80, 0.08);
+  border: none;
+}
+.card-header {
+  border-radius: 1rem 1rem 0 0;
+  font-weight: 600;
+  font-size: 1.2rem;
+  background: linear-gradient(90deg, #3498db 0%, #6dd5fa 100%);
+  color: #fff;
+}
+.card-body {
+  background: #f8fafc;
+  border-radius: 0 0 1rem 1rem;
+}
+.btn {
+  border-radius: 2rem;
+  font-weight: 600;
+  padding: 0.5rem 1.5rem;
+  box-shadow: 0 2px 8px rgba(44, 62, 80, 0.07);
+  transition: background 0.2s, color 0.2s;
+}
+.btn-primary {
+  background: linear-gradient(90deg, #3498db 0%, #6dd5fa 100%);
+  border: none;
+}
+.btn-primary:hover {
+  background: linear-gradient(90deg, #2980b9 0%, #3498db 100%);
+}
+.form-label {
+  font-weight: 600;
+  color: #2c3e50;
+}
+.form-control, .form-select {
+  border-radius: 0.5rem;
+  border: 1px solid #d1d5db;
+  box-shadow: 0 1px 4px rgba(44, 62, 80, 0.04);
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+}
+.form-control:focus, .form-select:focus {
+  border-color: #3498db;
+  outline: none;
+  box-shadow: 0 0 0 2px #6dd5fa33;
+}
+.table {
+  border-radius: 1rem;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 2px 12px rgba(44, 62, 80, 0.06);
+}
+.table th {
+  background: #f8fafc;
+  color: #2c3e50;
+  font-weight: 700;
+}
+.table td {
+  color: #444;
+}
+.alert {
+  border-radius: 0.75rem;
+  font-size: 1.05rem;
+  box-shadow: 0 2px 8px rgba(44, 62, 80, 0.04);
+}
+@media (max-width: 767px) {
+  .card {
+    border-radius: 0.5rem;
+  }
+}

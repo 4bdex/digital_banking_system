@@ -8,6 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-accounts',
@@ -31,7 +32,8 @@ export class AccountsComponent implements OnInit {
     private fb: FormBuilder,
     private accountService: AccountsService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    public authService: AuthService // <-- add public for template access
   ) {
 
   }
@@ -88,7 +90,7 @@ export class AccountsComponent implements OnInit {
   searchAccounts() {
     const term = this.searchTerm.trim().toLowerCase();
     if (!term) {
-     
+
       this.accounts = this.allAccounts;
       return;
     }
@@ -112,7 +114,7 @@ export class AccountsComponent implements OnInit {
   }
 
   editAccount(account: any) {
-   
+
     alert('Edit account feature to be implemented.');
   }
 }

@@ -12,12 +12,14 @@ import { authorizationGuard } from './guards/authorization.guard';
 import { NotAuthorizedComponent } from './not-authorized/not-authorized.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { RegisterComponent } from './register/register.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'change-password', component: ChangePasswordComponent },
+  { path: 'dashboard', component: DashboardComponent },
   {
     path: '',
     canActivateChild: [authentificationGuard],

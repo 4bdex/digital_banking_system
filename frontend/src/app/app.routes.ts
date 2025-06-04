@@ -19,7 +19,7 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'change-password', component: ChangePasswordComponent },
-  { path: 'dashboard', component: DashboardComponent },
+ 
   {
     path: '',
     canActivateChild: [authentificationGuard],
@@ -27,6 +27,7 @@ export const routes: Routes = [
       { path: 'customers', component: CustomersComponent },
       { path: 'account-operations', component: AccountOperationsComponent },
       { path: 'account-operations/:id', component: AccountOperationsComponent },
+      { path: 'dashboard', component: DashboardComponent , canActivate: [authorizationGuard], data: { roles: ['ROLE_ADMIN'] } },
       { path: 'accounts', component: AccountsComponent, canActivate: [authorizationGuard], data: { roles: ['ROLE_ADMIN'] } },
       { path: 'new-customer', component: NewCustomerComponent, canActivate: [authorizationGuard], data: { roles: ['ROLE_ADMIN'] } },
       { path: 'customer-accounts/:id', component: CustomerAccountsComponent },

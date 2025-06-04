@@ -45,6 +45,9 @@
         Return to Login
       </button>
     </div>
+         <button class="btn btn-link p-0 ms-2" (click)="goToLogin()">
+        Already have an account? Login
+      </button>
     <div *ngIf="error" class="alert alert-danger mt-3">{{ error }}</div>
   </div>
 </div>

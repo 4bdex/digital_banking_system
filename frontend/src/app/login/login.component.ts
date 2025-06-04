@@ -3,10 +3,11 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login',
-  imports: [ReactiveFormsModule, RouterModule],
+  imports: [ReactiveFormsModule, RouterModule, CommonModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
 })
@@ -24,21 +25,23 @@ export class LoginComponent {
     });
   }
 
+  errorMessage: string = '';
+
   handleLogin() {
     let username = this.formLogin.value.username;
     let password = this.formLogin.value.password;
     this.authService.login(username, password).subscribe({
       next: (data) => {
         this.authService.loadProfile(data);
+        this.errorMessage = '';
         if (this.authService.roles?.includes('ROLE_ADMIN')) {
-        this.router.navigateByUrl('/accounts');
-      } else {
-        this.router.navigateByUrl('/customers');
-      }
-
+          this.router.navigateByUrl('/dashboard');
+        } else {
+          this.router.navigateByUrl('/customers');
+        }
       },
       error: (err) => {
-        console.log(err);
+        this.errorMessage = 'Nom d\'utilisateur ou mot de passe incorrect.';
       }
     });
   }

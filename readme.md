@@ -3,6 +3,7 @@
 ---
 
 ## 📑 Table of Contents
+
 1. [Project Overview](#project-overview)
 2. [Technologies Used](#technologies-used)
 3. [Project Directory Structure](#project-directory-structure)
@@ -18,21 +19,23 @@
 6. [System Diagrams](#system-diagrams)
 7. [Frontend UI Screenshots](#frontend-ui-screenshots)
 
-
 ---
 
 ## 📝 Project Overview
+
 A full-stack digital banking system with a secure backend REST API (Spring Boot) and Angular frontend. Features include management of customers, accounts, and banking operations (credit, debit, transfer), with authentication and authorization.
 
 ---
 
 ## 🚀 Technologies Used
+
 - **Backend:** Java 21 · Spring Boot 3 · Spring Data JPA · Spring Security (JWT) · MySQL · Maven
 - **Frontend:** Angular 19 · Bootstrap 5 · RxJS · JWT-decode
 
 ---
 
 ## 📁 Project Directory Structure
+
 ```text
 ├── backend
 │   ├── pom.xml
@@ -55,16 +58,6 @@ A full-stack digital banking system with a secure backend REST API (Spring Boot)
 │   ├── tsconfig.app.json
 │   ├── tsconfig.json
 │   └── tsconfig.spec.json
-├── screenshots
-│   ├── login.png
-│   ├── customers.png
-│   ├── addCustomer.png
-│   ├── accounts.png
-│   ├── customer-accounts.png
-│   ├── operations.png
-│   ├── backend_diagram_class.png
-│   ├── db_schema.png
-│   └── swagger.png
 ├── readme.md
 ```
 
@@ -73,6 +66,7 @@ A full-stack digital banking system with a secure backend REST API (Spring Boot)
 ## 🛠️ Backend: Spring Boot Application
 
 ### Backend Structure
+
 - **Main Class:** `DigitalBankingSystemApplication.java`
 - **Entities:** `Customer`, `BankAccount` (`CurrentAccount`, `SavingAccount`), `AccountOperation`
 - **DTOs:** For data transfer (`CustomerDTO`, `BankAccountDTO`, etc.)
@@ -88,6 +82,7 @@ A full-stack digital banking system with a secure backend REST API (Spring Boot)
 - **Mappers:** DTO/entity conversion
 
 #### Directory Structure
+
 - `entities/` – JPA entities
 - `dtos/` – Data Transfer Objects
 - `repositories/` – Spring Data JPA repositories
@@ -98,29 +93,37 @@ A full-stack digital banking system with a secure backend REST API (Spring Boot)
 - `mappers/` – DTO/entity mappers
 
 ### Backend Class Diagram
+
 ![Backend Class Diagram](screenshots/backend_diagram_class.png)
 
 ### Main Classes & Features
+
 - **Customer Management:** CRUD operations, search, and retrieval
-- **Account Management:** Create current/saving accounts, view details
+- **Account Management:** Create current/saving accounts, view details, delete accounts
 - **Operations:** Credit, debit, transfer, and account history
+- **User Management:** Registration, change password, role-based access
+- **Dashboard:** Admin dashboard with statistics and charts
 
 ### Backend REST API
+
 ![Swagger APIs](screenshots/swagger.png)
 
 ### Security
+
 - **JWT Authentication:** Secure login, token-based access
 - **Role-based Authorization:** Admin/User roles, method-level security
-- **Endpoints:** `/auth/login`, `/auth/profile`, protected REST endpoints
+- **Endpoints:** `/auth/login`, `/auth/profile`, `/auth/register`, `/auth/change-password`, protected REST endpoints
 
 ### Database Schema
+
 ![Database Class Diagram](screenshots/db_schema.png)
 
 ### How to Run Backend
+
 1. Configure MySQL in `application.properties` (default: root, no password)
 2. From `backend/` directory, run:
-   ```bash
-   ./mvn spring-boot:run
+   ```cmd
+   mvn spring-boot:run
    ```
 3. API available at [http://localhost:8084/](http://localhost:8084/)
 
@@ -129,11 +132,12 @@ A full-stack digital banking system with a secure backend REST API (Spring Boot)
 ## 💻 Frontend: Angular Application
 
 ### Frontend Structure
+
 - **Main Entry:** `src/main.ts`, `src/app/app.component.ts`
 - **Components:**
-  - `accounts/`, `customers/`, `account-operations/`, `customer-accounts/`, `login/`, `navbar/`, etc.
+  - `accounts/`, `customers/`, `account-operations/`, `customer-accounts/`, `login/`, `register/`, `change-password/`, `dashboard/`, `edit-customer/`, `new-customer/`, `not-authorized/`, `navbar/`, etc.
 - **Services:**
-  - `accounts.service.ts`, `customer.service.ts`, `auth.service.ts`
+  - `accounts.service.ts`, `customer.service.ts`, `auth.service.ts`, `dashboard.service.ts`
 - **Guards:**
   - `authentification.guard.ts`, `authorization.guard.ts`
 - **Interceptors:**
@@ -142,6 +146,7 @@ A full-stack digital banking system with a secure backend REST API (Spring Boot)
   - `account.model.ts`, `customer.model.ts`
 
 #### Directory Structure
+
 - `accounts/`, `customers/`, `account-operations/`, etc. – UI components
 - `services/` – API communication
 - `guards/` – Route protection
@@ -149,30 +154,27 @@ A full-stack digital banking system with a secure backend REST API (Spring Boot)
 - `model/` – TypeScript models
 
 ### Main Components & Features
-- **Authentication:** Login form, JWT storage, protected routes
-- **Customer Management:** List, add, edit, search customers
-- **Account Management:** List, create, view accounts
+
+- **Authentication:** Login, registration, JWT storage, protected routes
+- **Customer Management:** List, add, edit, search, delete customers
+- **Account Management:** List, create, delete, view accounts
 - **Account Operations:** Credit, debit, transfer, view history
-- **Navigation:** Responsive navbar, route guards
+- **Dashboard:** Admin dashboard with statistics and charts
+- **User Profile:** Change password, logout
+- **Navigation:** Responsive navbar, route guards, not-authorized page
 - **UI:** Bootstrap-based, responsive design
 
 ### How to Run Frontend
+
 1. From `frontend/` directory, install dependencies:
-   ```bash
+   ```cmd
    npm install
    ```
 2. Start the development server:
-   ```bash
+   ```cmd
    ng serve
    ```
 3. App available at [http://localhost:4200/](http://localhost:4200/)
-
----
-
-## 📊 System Diagrams
-- **Backend Class Diagram:** ![Backend Class Diagram](screenshots/backend_diagram_class.png)
-- **Database Schema:** ![Database Class Diagram](screenshots/db_schema.png)
-- **Backend REST API (Swagger):** ![Swagger APIs](screenshots/swagger.png)
 
 ---
 
@@ -182,24 +184,42 @@ A full-stack digital banking system with a secure backend REST API (Spring Boot)
 
 ![Login Page](screenshots/login.png)
 
-#### Customers List
+#### Register Page
 
-![Customers List](screenshots/customers.png)
+![Register Page](screenshots/register.png)
 
-#### Add Customer (ADMIN only)
+#### Dashboard (Admin)
 
-![Add Customer](screenshots/addCustomer.png)
+![Admin Dashboard](screenshots/adminDashboard.png)
 
-#### Accounts List (ADMIN only)
+#### Customers List (Admin)
 
-![Accounts List](screenshots/accounts.png)
+![Customers List](screenshots/adminCustomers.png)
+
+
+#### Add Customer (ADMIN)
+
+![Add Customer](screenshots/adminAddAccount.png)
+
+#### Accounts List
+
+![Accounts List](screenshots/adminLandingPage.png)
+
+#### Add Account (ADMIN only)
+
+![Add Account](screenshots/adminAddAccount.png)
 
 #### Customer Accounts
 
-![Customer Accounts](screenshots/customer-accounts.png)
+![Customer Accounts](screenshots/custumorAccount.png)
 
-#### Account Operations (Operations - ADMIN only)
+#### Account Operations (ADMIN)
 
-![Account Operations](screenshots/operations.png)
+![Account Operations](screenshots/adminAccountsOperations.png)
+
+#### Change Password
+
+![Change Password](screenshots/changePassword.png)
+
 
 ---
